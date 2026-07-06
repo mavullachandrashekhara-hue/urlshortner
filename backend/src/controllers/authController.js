@@ -25,7 +25,6 @@ export const loginWithGoogle = async (req, res) => {
             console.log("Verifying the token of user with google.");
 
             console.log("printing client", config.GOOGLE_CLIENT_ID)
-            console.log("TOKEN =", token.substring(0, 20));
             ticket = await oAuthClient.verifyIdToken({
                 idToken: token,
                 audience: config.GOOGLE_CLIENT_ID

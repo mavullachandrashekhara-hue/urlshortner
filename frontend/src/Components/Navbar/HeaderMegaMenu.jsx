@@ -47,8 +47,8 @@ export function HeaderMegaMenu() {
     <Box pb={0}>
       <header className={classes.header}>
         <Group justify="space-between" h="100%">
-          <Text component={Link} to="/" className={classes.logo}>
-            Being  <Text component="span">Zero</Text>
+          <Text component={Link} to="/" className={classes.logo} style={{ textDecoration: 'none', color: 'inherit', fontWeight: 700, fontSize: '1.25rem' }}>
+            URL <Text component="span" style={{ fontWeight: 500 }}>Shortener</Text>
           </Text>
 
           <Group h="100%" gap={0} visibleFrom="sm">

@@ -16,11 +16,9 @@ function App() {
         <Routes>
             <Route path='/' element={<Home/>}/>
             <Route path='/login' element={<LoginPage/>} />
-            <Route path='/profile' element={<Profile/>} />
-            <Route path='/urlshortner' element={<Urlshortner/>}/>
-
             <Route element={<PrivateRoute/>}>
-
+                <Route path='/profile' element={<Profile/>} />
+                <Route path='/urlshortner' element={<Urlshortner/>}/>
             </Route>
         </Routes>
     </Router>
