@@ -44,7 +44,7 @@ app.get("/*name", (req, res) => { res.sendFile(path.join(__dirname, "../../front
 const startServer = async () => {
   try {
     await connectDB();
-    app.listen(config.PORT, () => console.log(`Server on PORT: ${config.PORT}`));
+    app.listen(config.PORT, () => console.log(`Server on PORT: http://localhost:${config.PORT}`));
   } catch (err) {
     console.error("Failed to connect to MongoDB. Server not started.", err.message);
     process.exit(1);
