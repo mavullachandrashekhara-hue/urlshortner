@@ -53,7 +53,7 @@ const Home = () => {
               marginTop: "1rem",
             }}
           >
-            chandu's urlshortner
+            url shortener
           </Title>
 
           <Text
