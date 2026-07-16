@@ -6,9 +6,21 @@ function joinURL(baseURL, url) {
 
 class Service {
   constructor() {
-    this.domain = "";
-    if (import.meta.env.VITE_BZENV === "development") {
-      this.domain = import.meta.env.VITE_DEV_PROXY;
+    // Determine the base API domain dynamically or via environment variables
+    if (import.meta.env.VITE_API_URL) {
+      this.domain = import.meta.env.VITE_API_URL;
+    } else if (import.meta.env.VITE_BZENV === "development" || import.meta.env.DEV) {
+      this.domain = import.meta.env.VITE_DEV_PROXY || "http://localhost:5000";
+    } else {
+      // In production mode, if hosted on Vercel, route to Render backend.
+      // Otherwise, use relative paths.
+      const currentOrigin = window.location.origin;
+      const defaultBackend = "https://url-shortener-bootcamp.onrender.com";
+      if (currentOrigin.includes("vercel.app")) {
+        this.domain = defaultBackend;
+      } else {
+        this.domain = "";
+      }
     }
   }
 
@@ -54,10 +66,7 @@ class Service {
 
 
   getBaseURL = () => {
-    if (import.meta.env.VITE_BZENV === "development") {
-      return import.meta.env.VITE_DEV_PROXY || "http://localhost:3000"; // fallback proxy
-    }
-    return window.location.origin;
+    return this.domain || window.location.origin;
   };
 }
 
