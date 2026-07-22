@@ -6,9 +6,18 @@ import { config } from "../config.js";
 
 export const loggedInUser = (req, res, next) => {
    try {
-       const token = req.cookies['jwt'];
+       let token = req.cookies['jwt'];
+
+       // Fallback: check Authorization header
+       if (!token && req.headers.authorization) {
+           const authHeader = req.headers.authorization;
+           if (authHeader.startsWith("Bearer ")) {
+               token = authHeader.split(" ")[1];
+           }
+       }
+
        if(!token ){
-           console.error("No token found in cookies for logged in user");
+           console.error("No token found in cookies or Authorization header for logged in user");
            return res.status(401).json({ status: "UNAUTHORIZED", message: "No token found" });
        }
        try {

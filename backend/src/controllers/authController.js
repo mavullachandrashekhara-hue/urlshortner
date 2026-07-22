@@ -68,12 +68,14 @@ export const loginWithGoogle = async (req, res) => {
         const userToken = jwt.sign({ id: user._id, role: user.role }, config.JWT_SECRET, { expiresIn: "7d" })
 
         console.log("Token Generated. Setting the token to cookies as jwt.");
+        const isProduction = process.env.NODE_ENV === "production" || (req.headers.host && !req.headers.host.includes("localhost"));
         res.cookie("jwt", 
             userToken, 
             { 
                 maxAge: 7 * 24 * 60 * 60 * 1000,
                 httpOnly: true, 
-                sameSite: 'lax' 
+                sameSite: isProduction ? 'none' : 'lax',
+                secure: isProduction ? true : false
             }
         );
 

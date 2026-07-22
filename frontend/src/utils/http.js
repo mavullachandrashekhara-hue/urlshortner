@@ -1,4 +1,5 @@
 import axios from "axios";
+import { store } from "../redux/store";
 
 function joinURL(baseURL, url) {
     return `${baseURL}/${url}`;
@@ -27,14 +28,26 @@ class Service {
   async request(url, method = "POST", data) {
     url = joinURL(this.domain, "api/" + url);
 
+    const headers = {
+      "Content-Type": "application/json",
+    };
+
+    try {
+      const state = store.getState();
+      const token = state.user?.token;
+      if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+      }
+    } catch (error) {
+      console.warn("Could not retrieve JWT token from Redux store for Authorization header:", error);
+    }
+
     const res = await axios.request({
       url,
       method,
       data,
       withCredentials: true,
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers,
     });
     return res.data;
   }
